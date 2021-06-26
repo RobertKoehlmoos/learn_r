@@ -1,0 +1,1 @@
+hand <- c("Ace", "King", "Queen", "Jack")
