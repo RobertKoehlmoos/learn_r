@@ -5,28 +5,37 @@ get_symbols <- function() {
 }
 
 score <- function(symbols) {
-  same <- length(unique(symbols)) == 1
-  if(same) {#all the same
-    payouts <- c("DD" = 100, "7" = 80, "BBB" = 40, "BB" = 25, 
-                 "B" = 10, "C" = 10, "0" = 0)
-    prize <- payouts[symbols[1]]
-  }else if (all(symbols %in% c("B", "BB", "BBB"))) {#all bars
+  diamonds <- sum(symbols == "DD")
+  cherries <- sum(symbols == "C")
+  
+  slots <- symbols[symbols != "DD"]
+  
+  payouts <- c("DD" = 100, "7" = 80, "BBB" = 40, "BB" = 25, 
+               "B" = 10, "C" = 10, "0" = 0)
+  
+  same <- length(unique(slots)) == 1
+  
+  if (diamonds == 3) {
+    prize <- 100
+  } else if (same) {#all the same
+    prize <- payouts[slots[1]]
+  } else if (all(slots %in% c("B", "BB", "BBB"))) {#all bars
     prize <- 5
-  } else { # count cherries
+  } else if (cherries > 0){ # count cherries
     payouts <- c(0, 2, 5)
-    prize <- payouts[sum(symbols == "C") + 1]
+    prize <- payouts[cherries + diamonds + 1]
+  } else {
+    prize <- 0
   }
   
   #adjust for diamonds
-  diamonds <- sum(symbols == "DD")
   prize * 2**diamonds
 }
 
 play <- function() {
   symbols <- get_symbols()
   prize <- score(symbols)
-  attr(prize, "symbols") <- symbols
-  prize
+  structure(prize, symbols = symbols, class = "slots")
 }
 
 slot_display <- function(prize){
@@ -44,3 +53,32 @@ slot_display <- function(prize){
   # display character string in console without quotes
   cat(string)
 }
+
+plays_till_broke <- function(start_with) {
+  cash <- start_with
+  n <- 0
+  while (cash > 0) { # while's are much less common than for's in R
+    cash <- cash - 1 + play()
+    n <- n + 1
+  }
+  n
+}
+
+print.slots <- function(x, ...) {
+  slot_display(x)
+}
+
+# finding the expected value of our slot machine
+combos <- expand.grid(wheel, wheel, wheel)
+probs <- c("DD" = 0.03, "7" = 0.03, "BBB" = 0.06, "BB" = 0.1,
+           "B" = 0.25, "C" = 0.01, "0" = 0.52)
+combos$prob1 <- probs[combos$Var1]
+combos$prob2 <- probs[combos$Var2]
+combos$prob3 <- probs[combos$Var3]
+combos$prob <- combos$prob1 * combos$prob2 * combos$prob3
+combos$prize <- NA
+for (i in 1:nrow(combos)) {
+  combos$prize[i] = score(c(combos$Var1[i], combos$Var2[i], combos$Var3[i]))
+}
+sum(combos$prob * combos$prize) # 0.934356
+ 
