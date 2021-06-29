@@ -167,6 +167,10 @@ system.time(change_symbols_best(many))
 # user  system elapsed 
 # 0.11    0.02    0.13 
 
+
+# the wild card handling logic below is the result of hours of tears and pain,
+# mostly the result of my own failure to check for logical mistakes
+# But in the end it is short, clear, and correct. May it stand for eternity
 score_many <- function(syms){
   # plays_symbols is a n x 3 matrix where each row consists of the three
   # slots for that play
@@ -220,10 +224,8 @@ get_many_symbols <- function(n) {
 
 play_many <- function(n) {
   symb_mat <- get_many_symbols(n = n)
-  results <- data.frame(w1 = symb_mat[,1], w2 = symb_mat[,2],
+  data.frame(w1 = symb_mat[,1], w2 = symb_mat[,2],
              w3 = symb_mat[,3], prize = score_many(symb_mat))
-  print(mean(results$prize))
-  results
 }
 
 system.time(play_many(100000))
