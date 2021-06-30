@@ -21,7 +21,7 @@ score <- function(symbols) {
     prize <- payouts[slots[1]]
   } else if (all(slots %in% c("B", "BB", "BBB"))) {#all bars
     prize <- 5
-  } else if (cherries > 0){ # count cherries
+  } else if (cherries > 0) { # count cherries
     payouts <- c(0, 2, 5)
     prize <- payouts[cherries + diamonds + 1]
   } else {
@@ -113,7 +113,7 @@ system.time(abs(long))
 
 # vectorizing functions practice
 change_symbols_old <- function(vec){
-  for (i in 1:length(vec)){
+  for (i in 1:length(vec)) {
     if (vec[i] == "DD") {
       vec[i] <- "joker"
     } else if (vec[i] == "C") {
