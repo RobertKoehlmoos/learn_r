@@ -10,3 +10,6 @@ as.date()
 and another
 as.date.POSIX()
 are just two random funciton names that have no underlying linkage
+
+The ternary operator is just a function called ifelse, so
+ifelse(x > 5, "x was greater than 5", "x was not greater than 5")
