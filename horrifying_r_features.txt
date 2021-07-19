@@ -1,2 +1,12 @@
 assign is a function, as in
 x <- 2 is equivalent to assign("x", 2)
+
+attribute setting is done by assigning to an output function, like
+attr(x, "attribute_of_x") <- 50
+
+periods in names are just characters, they hold no special semantic value
+so having a function
+as.date()
+and another
+as.date.POSIX()
+are just two random funciton names that have no underlying linkage
