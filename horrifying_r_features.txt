@@ -13,3 +13,9 @@ are just two random funciton names that have no underlying linkage
 
 The ternary operator is just a function called ifelse, so
 ifelse(x > 5, "x was greater than 5", "x was not greater than 5")
+
+The existence of return and invisible as functions to control return values the way that they do
+As best I can tell, the way methods are implemented relies only on the name of a function.
+That's right, it's just what ever the function's name is, that string identifies the class at the end, and that's how R knows which funciton to use for a class.
+
+Inheritance is performed by putting the superclass's name in the list of strings in the class attribute. That's it.
