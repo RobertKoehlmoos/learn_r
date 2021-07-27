@@ -19,3 +19,9 @@ As best I can tell, the way methods are implemented relies only on the name of a
 That's right, it's just what ever the function's name is, that string identifies the class at the end, and that's how R knows which funciton to use for a class.
 
 Inheritance is performed by putting the superclass's name in the list of strings in the class attribute. That's it.
+
+The existence of a function names `map2`, which is the way to map over two iterables at once:
+x <- c(1, 2, 3)
+y <- c(4, 5, 6)
+map(x, ~do_thing_with_input(.)) #prints all in x
+map2(x, y, func_that_takes_x_and_y_as_params) # this is the best way r has to handle this
